@@ -7,10 +7,6 @@
 //   2. Defer Framer Motion evaluation until after hydration, reducing TBT by 500–1000ms.
 import dynamic from "next/dynamic";
 
-const SplashScreen = dynamic(
-  () => import("@/components/ui/SplashScreen").then(mod => ({ default: mod.SplashScreen })),
-  { ssr: false }
-);
 
 const FloatingWhatsApp = dynamic(
   () => import("@/components/ui/FloatingWhatsApp").then(mod => ({ default: mod.FloatingWhatsApp })),
@@ -20,7 +16,7 @@ const FloatingWhatsApp = dynamic(
 export function DeferredShells() {
   return (
     <>
-      <SplashScreen />
+
       <FloatingWhatsApp />
     </>
   );

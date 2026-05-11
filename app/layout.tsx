@@ -3,6 +3,8 @@ import { Geist } from 'next/font/google';
 import './globals.css';
 import { cn } from "@/lib/utils";
 import { DeferredShells } from "@/components/ui/DeferredShells";
+import { SplashScreen } from "@/components/ui/SplashScreen";
+
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -29,9 +31,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        {/* T02 + T03: DeferredShells is a Client Component that defers
-            SplashScreen and FloatingWhatsApp via dynamic() with ssr:false,
-            preventing Framer Motion from blocking the main thread on load. */}
+        {/* T03: DeferredShells is a Client Component that defers
+            FloatingWhatsApp via dynamic() with ssr:false,
+            preventing it from blocking the main thread on load. 
+            SplashScreen was reverted to SSR because deferring it caused a 4s blank screen (FCP/Speed Index degradation). */}
+        <SplashScreen />
         <DeferredShells />
         {children}
       </body>

@@ -4,6 +4,9 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
