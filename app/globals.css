@@ -110,6 +110,27 @@
   .animate-infinite-scroll:hover {
     animation-play-state: paused;
   }
+
+  /* Esconde scrollbar no carrossel mobile sem remover funcionalidade */
+  .scroll-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Keyframe blob — movido do inline para cá para evitar re-inclusão a cada render */
+  @keyframes blob {
+    0%, 100% {
+      transform: translateY(10px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 }
 
 @layer components {
