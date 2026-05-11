@@ -129,7 +129,7 @@ const CardSwap = ({
               }}
               onClick={(e) => {
                 if (currentPosIndex === 0) {
-                    child.props.onClick?.(e);
+                    (child as any).props.onClick?.(e);
                     onCardClick?.(originalIndex);
                 }
               }}
