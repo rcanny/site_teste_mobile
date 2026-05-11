@@ -12,12 +12,20 @@ export async function POST(req: Request) {
 
     if (!email) return NextResponse.json({ error: "Email obrigatório" }, { status: 400 });
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        console.warn("Supabase keys missing. Skipping WhatsApp status update.");
+        return NextResponse.json({ success: true, mock: true });
+    }
+
     const { error } = await supabase
         .from("leads")
         .update({ cta_whatsapp_clicked: true })
         .eq("email", email);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+        console.error("Supabase Error [WhatsApp]:", error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
 }
