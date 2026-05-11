@@ -7,14 +7,15 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-    auth: { persistSession: false },
-});
+// Only initialize if keys are present to avoid "supabaseUrl is required" error during build
+const supabase = (supabaseUrl && supabaseServiceKey) 
+    ? createClient(supabaseUrl, supabaseServiceKey, { auth: { persistSession: false } })
+    : null;
 
 export async function POST(req: Request) {
     try {
-        if (!supabaseUrl || !supabaseServiceKey) {
-            console.warn("Supabase keys are missing. Running in mock/dry-run mode.");
+        if (!supabase) {
+            console.warn("Supabase client not initialized. Running in mock/dry-run mode.");
             return NextResponse.json({
                 success: true,
                 mock: true,
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
         }
 
         // Insere na tabela 'leads' conforme a documentação do PRD
-        const { data, error } = await supabase
+        const { data, error } = await supabase!
             .from("leads")
             .insert([
                 {
